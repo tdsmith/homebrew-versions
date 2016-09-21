@@ -47,11 +47,21 @@ class Gnupg21 < Formula
   conflicts_with "gpgme",
         :because => "gpgme currently requires 1.x.x or 2.0.x."
 
-  # Patch for `make check` failures in 2.1.13.
-  # Fixed upstream by Justus Winter & can be removed in next release.
-  patch do
-    url "https://raw.githubusercontent.com/Homebrew/formula-patches/7b2211b/gnupg21/spawned_child_8f79c31b.diff"
-    sha256 "fde57b1e484aa738af8f582910330cadef144430d9221d3242b5f635c7f41dbe"
+  stable do
+    # Patch for `make check` failures in 2.1.13.
+    # Fixed upstream by Justus Winter & can be removed in next release.
+    patch do
+      url "https://raw.githubusercontent.com/Homebrew/formula-patches/7b2211b/gnupg21/spawned_child_8f79c31b.diff"
+      sha256 "fde57b1e484aa738af8f582910330cadef144430d9221d3242b5f635c7f41dbe"
+    end
+
+    # Fixes tofu test failure caused by expired keys.
+    # https://github.com/Homebrew/homebrew-versions/issues/1392
+    # https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=commit;h=e584d6468a2e72cd01e55f46104f9f96b56c0b66
+    patch do
+      url "https://raw.githubusercontent.com/Homebrew/formula-patches/1a9e3aa/gnupg21/tofu_test_date_e584d64.patch"
+      sha256 "9af1e608393d2ab807847bc34c79baca277bf34a1c1a5d1c3dcc25b549cba4d1"
+    end
   end
 
   def install
